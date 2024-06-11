@@ -23,7 +23,7 @@ with st.sidebar:
         st.write(df.head())
     else:
         st.warning('Please upload a CSV file to proceed.')
-
+ 
 # Continue only if data is uploaded
 if uploaded_file is not None:
     with st.sidebar:
