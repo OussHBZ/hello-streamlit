@@ -48,7 +48,8 @@ if uploaded_file is not None:
     if features:
         # Preprocess the data
         X = df[features]
-        
+        st.write("Features preview:")
+        st.write(X.head())
         # Handle missing values
         imputer = SimpleImputer(strategy='mean')
         X = imputer.fit_transform(X)
@@ -57,7 +58,9 @@ if uploaded_file is not None:
 
         st.header('PCA Analysis')
         n_components = st.slider('Number of PCA components', 2, min(X.shape[1], 10), 2, 1)
-
+        st.text('''PCA requires components between  2 and the smaller 
+value between the number of features in 
+the dataset and 10. ''')
         # Apply PCA
         pca = PCA(n_components=n_components)
         pca_result = pca.fit_transform(X)
