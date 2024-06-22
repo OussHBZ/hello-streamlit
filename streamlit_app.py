@@ -64,12 +64,15 @@ the dataset and 10. ''')
         # Apply PCA
         pca = PCA(n_components=n_components)
         pca_result = pca.fit_transform(X)
+
+        # Retrieve the variance explained by each principal component.
         explained_variance = pca.explained_variance_ratio_
 
         st.write(f'Explained variance by {n_components} components: {explained_variance.sum():.2f}')
         pca_df = pd.DataFrame(pca_result, columns=[f'PC{i+1}' for i in range(n_components)])
         st.write(pca_df.head())
 
+        # Visualize the first two principal components
         st.header('PCA Results Visualization')
         if n_components > 1:
             pca_chart = alt.Chart(pca_df).mark_circle(size=60).encode(
@@ -80,14 +83,25 @@ the dataset and 10. ''')
 
             st.altair_chart(pca_chart, use_container_width=True)
         
-        # Scree plot
+                   # Scree plot
         st.header('Scree Plot')
-        plt.figure(figsize=(10, 6))
-        plt.plot(range(1, len(explained_variance) + 1), explained_variance, marker='o', linestyle='--')
-        plt.xlabel('Principal Component')
-        plt.ylabel('Variance Explained')
-        plt.title('Scree Plot')
-        st.pyplot(plt)
+        fig, ax = plt.subplots(figsize=(10, 6))
+        components = np.arange(1, len(explained_variance) + 1)
+        ax.bar(components, explained_variance * 100, alpha=0.6, align='center', label='Individual Explained Variance')
+        ax.plot(components, explained_variance.cumsum() * 100, marker='o', color='black', label='Cumulative Explained Variance')
+
+        # Add text annotations for the explained variance percentages
+        for i, v in enumerate(explained_variance * 100):
+            ax.text(i + 1, v + 1, f"{v:.1f}%", ha='center', va='bottom')
+
+        # Set labels and title
+        ax.set_xlabel('Dimensions')
+        ax.set_ylabel('Percentage of Explained Variance')
+        ax.set_title('Scree Plot')
+        ax.legend(loc='best')
+        ax.grid(True)
+
+        st.pyplot(fig)
 
         st.header('Conclusion')
         st.write(f"The selected principal components explain {explained_variance.sum():.2%} of the variance in the data.")
