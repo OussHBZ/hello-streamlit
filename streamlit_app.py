@@ -10,18 +10,18 @@ import matplotlib.pyplot as plt
 st.set_page_config(page_title='PCA Analysis', page_icon='🤖')
 st.title('🤖 PCA Analysis')
 
-  # PCA definition in an expander
+# PCA definition in an expander
 with st.expander('What is Principal Component Analysis (PCA)?'):
-        st.text('''
-        Principal Component Analysis (PCA) is a statistical 
-        technique used to reduce the dimensionality 
-        of a dataset while retaining most of the variability 
-        in the data. It transforms the original variables 
-        into a new set of variables called principal 
-        components, which are orthogonal (uncorrelated) 
-        and ordered by the amount of variance they explain 
-        in the data.
-        ''')
+    st.text('''
+    Principal Component Analysis (PCA) is a statistical 
+    technique used to reduce the dimensionality 
+    of a dataset while retaining most of the variability 
+    in the data. It transforms the original variables 
+    into a new set of variables called principal 
+    components, which are orthogonal (uncorrelated) 
+    and ordered by the amount of variance they explain 
+    in the data.
+    ''')
 
 # Sidebar for uploading data
 with st.sidebar:
@@ -58,14 +58,18 @@ if uploaded_file is not None:
 
         st.header('PCA Analysis')
         n_components = st.slider('Number of PCA components', 2, min(X.shape[1], 10), 2, 1)
-        st.text('''PCA requires components between  2 and the smaller 
+        st.text('''PCA requires components between 2 and the smaller 
 value between the number of features in 
-the dataset and 10. ''')
+the dataset and 10.''')
+
+
         # Apply PCA
         pca = PCA(n_components=n_components)
         pca_result = pca.fit_transform(X)
 
-        # Retrieve the variance explained by each principal component.
+
+
+        # Retrieve the variance explained by each principal component
         explained_variance = pca.explained_variance_ratio_
 
         st.write(f'Explained variance by {n_components} components: {explained_variance.sum():.2f}')
@@ -82,13 +86,13 @@ the dataset and 10. ''')
             ).interactive()
 
             st.altair_chart(pca_chart, use_container_width=True)
-        
-                   # Scree plot
+
+        # Scree plot
         st.header('Scree Plot')
         fig, ax = plt.subplots(figsize=(10, 6))
         components = np.arange(1, len(explained_variance) + 1)
         ax.bar(components, explained_variance * 100, alpha=0.6, align='center', label='Individual Explained Variance')
-        ax.plot(components, explained_variance.cumsum() * 100, marker='o', color='black', label='Cumulative Explained Variance')
+        ax.plot(components, np.cumsum(explained_variance) * 100, marker='o', color='black', label='Cumulative Explained Variance')
 
         # Add text annotations for the explained variance percentages
         for i, v in enumerate(explained_variance * 100):
@@ -105,10 +109,12 @@ the dataset and 10. ''')
 
         st.header('Conclusion')
         st.write(f"The selected principal components explain {explained_variance.sum():.2%} of the variance in the data.")
-        
+
         if explained_variance.sum() < 0.80:
             st.write("Consider adding more components or preprocessing your data further for better results.")
         else:
             st.write("The PCA results indicate a significant reduction in dimensionality with minimal loss of information.")
+            
+
 else:
     st.warning('👈 Upload a CSV file to get started!')
