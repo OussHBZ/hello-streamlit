@@ -13,14 +13,11 @@ st.title('🤖 PCA Analysis')
 # PCA definition in an expander
 with st.expander('What is Principal Component Analysis (PCA)?'):
     st.text('''
-    Principal Component Analysis (PCA) is a statistical 
-    technique used to reduce the dimensionality 
-    of a dataset while retaining most of the variability 
-    in the data. It transforms the original variables 
-    into a new set of variables called principal 
-    components, which are orthogonal (uncorrelated) 
-    and ordered by the amount of variance they explain 
-    in the data.
+    Principal Component Analysis (PCA) is a statistical technique used to reduce
+    the dimensionality of a dataset while retaining most of the variability in
+    the data. It transforms the original variables into a new set of variables 
+    called principal components, which are orthogonal (uncorrelated) and ordered 
+    by the amount of variance they explain in the data.
     ''')
 
 # Sidebar for uploading data
