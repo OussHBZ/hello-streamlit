@@ -58,9 +58,8 @@ if uploaded_file is not None:
 
         st.header('PCA Analysis')
         n_components = st.slider('Number of PCA components', 2, min(X.shape[1], 10), 2, 1)
-        st.text('''PCA requires components between 2 and the smaller 
-value between the number of features in 
-the dataset and 10.''')
+        st.warning('PCA requires components between 2 and the smaller value between the number of features in  the dataset and 10.')
+
 
 
         # Apply PCA
@@ -106,6 +105,8 @@ the dataset and 10.''')
         ax.grid(True)
 
         st.pyplot(fig)
+        st.warning('A scree plot displays the percentage of total variance explained by each principal component in a PCA.')
+
 
         st.header('Conclusion')
         st.write(f"The selected principal components explain {explained_variance.sum():.2%} of the variance in the data.")
