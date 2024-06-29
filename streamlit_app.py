@@ -140,14 +140,14 @@ if uploaded_file is not None:
                 st.write(f'Voting Classifier Accuracy: {voting_accuracy:.2f}')
 
                 st.header('Conclusion')
-                st.write('The Voting Classifier combines the predictions of Logistic Regression, Decision Tree, SVM, and KNN models. The performance depends on the individual models and their diversity. It is suitable when the models have different strengths.')
+                st.write('The Voting Classifier combines predictions from Logistic Regression, Decision Tree, SVM, and KNN models. It is beneficial when different models capture different aspects of the data.')
 
             elif method == 'Bagging':
                 st.subheader('Bagging Classifier')
                 st.text('''
-                Bagging (Bootstrap Aggregating) reduces variance by training multiple models on different subsets of data. Each model is trained independently, and their predictions are averaged (regression) or voted on (classification).
-                - n_estimators: Number of models in the ensemble.
-                - max_samples: Proportion of the dataset to use for each model.
+                Bagging Classifier reduces variance by training multiple models on different subsets of data.
+                - n_estimators: Number of models to train.
+                - max_samples: Proportion of the dataset used for each model.
                 ''')
                 n_estimators = st.slider('Number of estimators', 1, 100, 10)
                 max_samples = st.slider('Max samples', 0.1, 1.0, 0.5)
@@ -158,12 +158,12 @@ if uploaded_file is not None:
                 st.write(f'Bagging Classifier Accuracy: {bagging_accuracy:.2f}')
 
                 st.header('Conclusion')
-                st.write('The Bagging Classifier uses multiple Decision Trees trained on different subsets of the data. It reduces variance and improves stability, especially for high-variance models like Decision Trees.')
+                st.write('The Bagging Classifier uses multiple Decision Trees trained on different subsets of data. It helps reduce variance and overfitting.')
 
             elif method == 'Boosting':
                 st.subheader('Boosting Classifier')
                 st.text('''
-                Boosting sequentially combines weak learners to create a strong learner. Each model corrects errors of the previous one.
+                Boosting Classifier improves accuracy by combining multiple weak learners sequentially.
                 - n_estimators: Number of boosting stages to run.
                 - learning_rate: Step size for updating weights.
                 ''')
