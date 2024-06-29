@@ -105,7 +105,6 @@ if uploaded_file is not None:
     elif analysis_type == 'Ensemble Learning':
         st.header('Ensemble Learning Methods')
         method = st.selectbox('Select Ensemble Method', ['Voting', 'Bagging', 'Boosting', 'Stacking'])
-        
 
         with st.sidebar:
             st.info("Select numerical features for the model.")
@@ -166,7 +165,7 @@ if uploaded_file is not None:
                 st.text('''
                 Boosting sequentially combines weak learners to create a strong learner. Each model corrects errors of the previous one.
                 - n_estimators: Number of boosting stages to run.
-                - learning_rate: Shrinks the contribution of each classifier by this factor.
+                - learning_rate: Step size for updating weights.
                 ''')
                 n_estimators = st.slider('Number of estimators', 1, 100, 50)
                 learning_rate = st.slider('Learning rate', 0.01, 1.0, 0.1)
@@ -177,7 +176,7 @@ if uploaded_file is not None:
                 st.write(f'Boosting Classifier Accuracy: {boosting_accuracy:.2f}')
 
                 st.header('Conclusion')
-                st.write('The Boosting Classifier uses multiple Decision Trees, each correcting the errors of the previous one. It is effective for reducing bias and improving accuracy, especially for weak models.')
+                st.write('The Boosting Classifier uses AdaBoost with multiple Decision Trees. It is effective for reducing bias and improving accuracy, especially for weak models.')
 
             elif method == 'Stacking':
                 st.subheader('Stacking Classifier')
