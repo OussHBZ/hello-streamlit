@@ -36,8 +36,10 @@ if uploaded_file is not None:
 if uploaded_file is not None:
     with st.sidebar:
         st.header('Choose Features for PCA')
+        st.info("Please select only numerical features for PCA. Non-numerical data types are not supported.")
         all_columns = df.columns.tolist()
         features = st.multiselect('Select features for PCA', all_columns)
+
 
         if not features:
             st.warning('Please select the features to proceed.')
