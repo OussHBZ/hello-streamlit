@@ -43,6 +43,7 @@ with st.sidebar:
     analysis_type = st.selectbox('Select Analysis Type', ['PCA', 'Ensemble Learning'])
     if analysis_type == 'Ensemble Learning':
         task_type = st.selectbox('Select Task Type', ['Classification', 'Regression'])
+        st.info(" the choice between classification and regression depends on whether your target variable is categorical (classification) or continuous (regression).")
 
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
@@ -108,7 +109,6 @@ if uploaded_file is not None:
         method = st.selectbox('Select Ensemble Method', ['Voting', 'Bagging', 'Boosting', 'Stacking'])
 
         with st.sidebar:
-            st.info("Select numerical features for the model.")
             features = st.multiselect('Select features for Ensemble Learning', df.columns.tolist())
             target = st.selectbox('Select target variable', [col for col in df.columns if col not in features])
 
