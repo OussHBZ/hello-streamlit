@@ -43,7 +43,7 @@ with st.sidebar:
     analysis_type = st.selectbox('Select Analysis Type', ['PCA', 'Ensemble Learning'])
     if analysis_type == 'Ensemble Learning':
         task_type = st.selectbox('Select Task Type', ['Classification', 'Regression'])
-        st.info(" the choice between classification and regression depends on whether your target variable is categorical (classification) or continuous (regression).")
+        st.info(" The choice between classification and regression depends on whether your target variable is categorical (classification) or continuous (regression).")
 
 if uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
