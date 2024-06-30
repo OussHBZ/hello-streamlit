@@ -29,7 +29,7 @@ DATASETS = {
 
 # Page title
 st.set_page_config(page_title='PCA and Ensemble Learning', page_icon='🤖')
-st.title('🤖 CA and Ensemble Learning')
+st.title('🤖 PCA and Ensemble Learning')
 # Add custom CSS for styling
 st.markdown("""
     <style>
