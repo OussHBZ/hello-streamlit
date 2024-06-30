@@ -16,6 +16,16 @@ from sklearn.metrics import accuracy_score, mean_squared_error
 from sklearn.preprocessing import StandardScaler
 import base64
 
+# Predefined datasets
+DATASETS = {
+    "Iris": "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data",
+    "Diabetes": "https://archive.ics.uci.edu/ml/machine-learning-databases/diabetes/diabetes.data",
+    "Digits": "https://archive.ics.uci.edu/ml/machine-learning-databases/optdigits/optdigits.tra",
+    "Boston Housing": "https://archive.ics.uci.edu/ml/machine-learning-databases/housing/housing.data",
+    "Heart Disease": "https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/processed.cleveland.data",
+    "Breast Cancer": "https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer-wisconsin/wdbc.data"
+}
+
 
 # Page title
 st.set_page_config(page_title='PCA and Ensemble Learning', page_icon='🤖')
@@ -45,7 +55,7 @@ st.markdown(f"""
     <div class="header-container">
         <div class="header-text">
             <h4>Our project utilizes Principal Component Analysis (PCA) and ensemble learning techniques to provide comprehensive insights from various datasets.</h4>
-            <p>Developed by Ousama Hbouz, Mohamed MARZAK, MDIHEN HANANE, Khiri Douae, Benkattaba Hiba and Fattoumi Houda</p>
+            <p>Developed by <b> Ousama HBOUZ , Mohamed MARZAK, HANANE MDIHEN, Douae KHIRI, Hiba BENKATTABA and Houda FATTOUMI</p>
         </div>
         <img src="data:image/png;base64,{logo_base64}" />
     </div>
@@ -73,15 +83,24 @@ with st.expander('What is Ensemble Learning?'):
 
 # Sidebar for uploading data and selecting analysis type
 with st.sidebar:
-    st.header('Upload Data')
-    uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
+    st.header('Upload or Select Data')
+    dataset_choice = st.selectbox('Choose a dataset', ['Upload your own data'] + list(DATASETS.keys()))
+    
+    if dataset_choice == 'Upload your own data':
+        uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
+    else:
+        data_url = DATASETS[dataset_choice]
+        df = pd.read_csv(data_url, header=None)
+    
     analysis_type = st.selectbox('Select Analysis Type', ['PCA', 'Ensemble Learning'])
     if analysis_type == 'Ensemble Learning':
         task_type = st.selectbox('Select Task Type', ['Classification', 'Regression'])
         st.info("The choice between classification and regression depends on whether your target variable is categorical (classification) or continuous (regression).")
 
-if uploaded_file is not None:
+# Load the dataset
+if dataset_choice == 'Upload your own data' and uploaded_file is not None:
     df = pd.read_csv(uploaded_file)
+if 'df' in locals():
     st.write("Data preview:")
     st.write(df.head())
 
