@@ -36,10 +36,10 @@ st.markdown("""
     .header-container {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: start;
     }
     .header-container img {
-        width: 100px; 
+        width: 400px; 
     }
     .header-container .header-text {
         text-align: left;
@@ -54,8 +54,9 @@ logo_base64 = base64.b64encode(open(logo_path, "rb").read()).decode()
 st.markdown(f"""
     <div class="header-container">
         <div class="header-text">
-            <h4>Our project utilizes Principal Component Analysis (PCA) and ensemble learning techniques to provide comprehensive insights from various datasets.</h4>
-            <p>Developed by <b> Ousama HBOUZ , Mohamed MARZAK, HANANE MDIHEN, Douae KHIRI, Hiba BENKATTABA and Houda FATTOUMI</p>
+            <strong>Our project explores Principal Component Analysis (PCA) for dimensionality reduction and various ensemble learning techniques to improve model performance, providing detailed insights from diverse datasets.</h4>
+            <hr class="dashed">
+            <p>Developed by <b> Oussama HBOUZ , Mohamed MARZAK, HANANE MDIHEN, Douae KHIRI, Hiba BENKATTABA and Houda FATTOUMI</p>
         </div>
         <img src="data:image/png;base64,{logo_base64}" />
     </div>
