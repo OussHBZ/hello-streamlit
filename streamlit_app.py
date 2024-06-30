@@ -14,10 +14,43 @@ from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, mean_squared_error
 from sklearn.preprocessing import StandardScaler
+import base64
+
 
 # Page title
 st.set_page_config(page_title='PCA and Ensemble Learning', page_icon='🤖')
 st.title('🤖 PCA and Ensemble Learning')
+# Add custom CSS for styling
+st.markdown("""
+    <style>
+    .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .header-container img {
+        width: 100px; 
+    }
+    .header-container .header-text {
+        text-align: left;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+# Header section
+logo_path = "FMPM.png"  
+logo_base64 = base64.b64encode(open(logo_path, "rb").read()).decode()
+
+st.markdown(f"""
+    <div class="header-container">
+        <div class="header-text">
+            <h4>Our project utilizes Principal Component Analysis (PCA) and ensemble learning techniques to provide comprehensive insights from various datasets.</h4>
+            <p>Developed by Ousama Hbouz, Mohamed MARZAK, MDIHEN HANANE, Khiri Douae, Benkattaba Hiba and Fattoumi Houda</p>
+        </div>
+        <img src="data:image/png;base64,{logo_base64}" />
+    </div>
+    """, unsafe_allow_html=True)
+
 
 # Expanders for PCA and Ensemble Learning explanations
 with st.expander('What is Principal Component Analysis (PCA)?'):
@@ -151,8 +184,11 @@ if uploaded_file is not None:
                     st.write('The Voting Classifier combines predictions from Logistic Regression, Decision Tree, SVM, and KNN models. It is beneficial when different models capture different aspects of the data.')
 
                     plt.figure(figsize=(10, 7))
-                    sns.scatterplot(x=X_test[:, 0], y=X_test[:, 1], hue=voting_pred, palette='viridis')
+                    sns.scatterplot(x=X_test[:, 0], y=X_test[:, 1], hue=voting_pred, palette='viridis', legend='full')
                     plt.title('Voting Classifier Predictions')
+                    plt.xlabel('Feature 1')
+                    plt.ylabel('Feature 2')
+                    plt.legend(title='Predicted Class')
                     st.pyplot(plt)
 
                 elif method == 'Bagging':
@@ -174,16 +210,19 @@ if uploaded_file is not None:
                     st.write('The Bagging Classifier uses multiple Decision Trees trained on different subsets of data. It helps reduce variance and overfitting.')
 
                     plt.figure(figsize=(10, 7))
-                    sns.scatterplot(x=X_test[:, 0], y=X_test[:, 1], hue=bagging_pred, palette='viridis')
+                    sns.scatterplot(x=X_test[:, 0], y=X_test[:, 1], hue=bagging_pred, palette='viridis', legend='full')
                     plt.title('Bagging Classifier Predictions')
+                    plt.xlabel('Feature 1')
+                    plt.ylabel('Feature 2')
+                    plt.legend(title='Predicted Class')
                     st.pyplot(plt)
 
                 elif method == 'Boosting':
                     st.subheader('Boosting Classifier')
                     st.text('''
-                    Boosting Classifier sequentially combines models, each correcting errors of the previous ones.
-                    - n_estimators: Number of models to train.
-                    - learning_rate: Step size for each iteration.
+                    Boosting Classifier combines models sequentially, each correcting errors of the previous ones.
+                    - n_estimators: Number of boosting stages.
+                    - learning_rate: Step size shrinkage.
                     ''')
                     n_estimators = st.slider('Number of estimators', 1, 100, 50)
                     learning_rate = st.slider('Learning rate', 0.01, 1.0, 0.1)
@@ -194,24 +233,26 @@ if uploaded_file is not None:
                     st.write(f'Boosting Classifier Accuracy: {boosting_accuracy:.2f}')
 
                     st.header('Conclusion')
-                    st.write('The Boosting Classifier combines multiple weak models sequentially, each focusing on the errors of the previous model.')
+                    st.write('The Boosting Classifier sequentially trains models, with each model correcting the errors of the previous one. It is effective in reducing bias.')
 
                     plt.figure(figsize=(10, 7))
-                    sns.scatterplot(x=X_test[:, 0], y=X_test[:, 1], hue=boosting_pred, palette='viridis')
+                    sns.scatterplot(x=X_test[:, 0], y=X_test[:, 1], hue=boosting_pred, palette='viridis', legend='full')
                     plt.title('Boosting Classifier Predictions')
+                    plt.xlabel('Feature 1')
+                    plt.ylabel('Feature 2')
+                    plt.legend(title='Predicted Class')
                     st.pyplot(plt)
 
                 elif method == 'Stacking':
                     st.subheader('Stacking Classifier')
                     st.text('''
-                    Stacking Classifier combines predictions from multiple models using a meta-model.
-                    - base_models: Models used for predictions.
-                    - meta_model: Model that combines base models' predictions.
+                    Stacking Classifier combines multiple models and uses a meta-model to aggregate their predictions.
                     ''')
                     base_models = [
                         ('Logistic Regression', LogisticRegression()),
                         ('Decision Tree', DecisionTreeClassifier()),
-                        ('SVM', SVC(probability=True))
+                        ('SVM', SVC(probability=True)),
+                        ('KNN', KNeighborsClassifier())
                     ]
                     meta_model = LogisticRegression()
                     stacking_clf = StackingClassifier(estimators=base_models, final_estimator=meta_model)
@@ -221,18 +262,21 @@ if uploaded_file is not None:
                     st.write(f'Stacking Classifier Accuracy: {stacking_accuracy:.2f}')
 
                     st.header('Conclusion')
-                    st.write('The Stacking Classifier combines predictions from Logistic Regression, Decision Tree, and SVM models using a Logistic Regression meta-model.')
+                    st.write('The Stacking Classifier combines predictions from multiple models using a meta-model. It can capture complex patterns in the data.')
 
                     plt.figure(figsize=(10, 7))
-                    sns.scatterplot(x=X_test[:, 0], y=X_test[:, 1], hue=stacking_pred, palette='viridis')
+                    sns.scatterplot(x=X_test[:, 0], y=X_test[:, 1], hue=stacking_pred, palette='viridis', legend='full')
                     plt.title('Stacking Classifier Predictions')
+                    plt.xlabel('Feature 1')
+                    plt.ylabel('Feature 2')
+                    plt.legend(title='Predicted Class')
                     st.pyplot(plt)
 
             elif task_type == 'Regression':
                 if method == 'Voting':
                     st.subheader('Voting Regressor')
                     st.text('''
-                    Voting Regressor combines predictions from multiple models using average voting.
+                    Voting Regressor combines predictions from multiple models using averaging.
                     ''')
                     base_models = [
                         ('Linear Regression', LinearRegression()),
@@ -244,22 +288,26 @@ if uploaded_file is not None:
                     voting_reg.fit(X_train, y_train)
                     voting_pred = voting_reg.predict(X_test)
                     voting_mse = mean_squared_error(y_test, voting_pred)
-                    st.write(f'Voting Regressor MSE: {voting_mse:.2f}')
+                    st.write(f'Voting Regressor Mean Squared Error: {voting_mse:.2f}')
 
                     st.header('Conclusion')
                     st.write('The Voting Regressor combines predictions from Linear Regression, Decision Tree, SVR, and KNN models. It is beneficial when different models capture different aspects of the data.')
 
                     plt.figure(figsize=(10, 7))
-                    plt.scatter(y_test, voting_pred, alpha=0.5)
-                    plt.xlabel('True Values')
-                    plt.ylabel('Predicted Values')
+                    sns.scatterplot(x=X_test[:, 0], y=y_test, color='blue', label='Actual')
+                    sns.scatterplot(x=X_test[:, 0], y=voting_pred, color='red', label='Predicted')
                     plt.title('Voting Regressor Predictions')
+                    plt.xlabel('Feature 1')
+                    plt.ylabel('Target Variable')
+                    plt.legend()
                     st.pyplot(plt)
 
                 elif method == 'Bagging':
                     st.subheader('Bagging Regressor')
                     st.text('''
                     Bagging Regressor reduces variance by training multiple models on different subsets of data.
+                    - n_estimators: Number of models to train.
+                    - max_samples: Proportion of the dataset used for each model.
                     ''')
                     n_estimators = st.slider('Number of estimators', 1, 100, 10)
                     max_samples = st.slider('Max samples', 0.1, 1.0, 0.5)
@@ -267,22 +315,26 @@ if uploaded_file is not None:
                     bagging_reg.fit(X_train, y_train)
                     bagging_pred = bagging_reg.predict(X_test)
                     bagging_mse = mean_squared_error(y_test, bagging_pred)
-                    st.write(f'Bagging Regressor MSE: {bagging_mse:.2f}')
+                    st.write(f'Bagging Regressor Mean Squared Error: {bagging_mse:.2f}')
 
                     st.header('Conclusion')
                     st.write('The Bagging Regressor uses multiple Decision Trees trained on different subsets of data. It helps reduce variance and overfitting.')
 
                     plt.figure(figsize=(10, 7))
-                    plt.scatter(y_test, bagging_pred, alpha=0.5)
-                    plt.xlabel('True Values')
-                    plt.ylabel('Predicted Values')
+                    sns.scatterplot(x=X_test[:, 0], y=y_test, color='blue', label='Actual')
+                    sns.scatterplot(x=X_test[:, 0], y=bagging_pred, color='red', label='Predicted')
                     plt.title('Bagging Regressor Predictions')
+                    plt.xlabel('Feature 1')
+                    plt.ylabel('Target Variable')
+                    plt.legend()
                     st.pyplot(plt)
 
                 elif method == 'Boosting':
                     st.subheader('Boosting Regressor')
                     st.text('''
-                    Boosting Regressor sequentially combines models, each correcting errors of the previous ones.
+                    Boosting Regressor combines models sequentially, each correcting errors of the previous ones.
+                    - n_estimators: Number of boosting stages.
+                    - learning_rate: Step size shrinkage.
                     ''')
                     n_estimators = st.slider('Number of estimators', 1, 100, 50)
                     learning_rate = st.slider('Learning rate', 0.01, 1.0, 0.1)
@@ -290,64 +342,53 @@ if uploaded_file is not None:
                     boosting_reg.fit(X_train, y_train)
                     boosting_pred = boosting_reg.predict(X_test)
                     boosting_mse = mean_squared_error(y_test, boosting_pred)
-                    st.write(f'Boosting Regressor MSE: {boosting_mse:.2f}')
+                    st.write(f'Boosting Regressor Mean Squared Error: {boosting_mse:.2f}')
 
                     st.header('Conclusion')
-                    st.write('The Boosting Regressor combines multiple weak models sequentially, each focusing on the errors of the previous model.')
+                    st.write('The Boosting Regressor sequentially trains models, with each model correcting the errors of the previous one. It is effective in reducing bias.')
 
                     plt.figure(figsize=(10, 7))
-                    plt.scatter(y_test, boosting_pred, alpha=0.5)
-                    plt.xlabel('True Values')
-                    plt.ylabel('Predicted Values')
+                    sns.scatterplot(x=X_test[:, 0], y=y_test, color='blue', label='Actual')
+                    sns.scatterplot(x=X_test[:, 0], y=boosting_pred, color='red', label='Predicted')
                     plt.title('Boosting Regressor Predictions')
+                    plt.xlabel('Feature 1')
+                    plt.ylabel('Target Variable')
+                    plt.legend()
                     st.pyplot(plt)
 
                 elif method == 'Stacking':
                     st.subheader('Stacking Regressor')
                     st.text('''
-                    Stacking Regressor combines predictions from multiple models using a meta-model.
+                    Stacking Regressor combines multiple models and uses a meta-model to aggregate their predictions.
                     ''')
                     base_models = [
                         ('Linear Regression', LinearRegression()),
                         ('Decision Tree', DecisionTreeRegressor()),
-                        ('SVR', SVR())
+                        ('SVR', SVR()),
+                        ('KNN', KNeighborsRegressor())
                     ]
                     meta_model = LinearRegression()
                     stacking_reg = StackingRegressor(estimators=base_models, final_estimator=meta_model)
                     stacking_reg.fit(X_train, y_train)
                     stacking_pred = stacking_reg.predict(X_test)
                     stacking_mse = mean_squared_error(y_test, stacking_pred)
-                    st.write(f'Stacking Regressor MSE: {stacking_mse:.2f}')
+                    st.write(f'Stacking Regressor Mean Squared Error: {stacking_mse:.2f}')
 
                     st.header('Conclusion')
-                    st.write('The Stacking Regressor combines predictions from Linear Regression, Decision Tree, and SVR models using a Linear Regression meta-model.')
+                    st.write('The Stacking Regressor combines predictions from multiple models using a meta-model. It can capture complex patterns in the data.')
 
                     plt.figure(figsize=(10, 7))
-                    plt.scatter(y_test, stacking_pred, alpha=0.5)
-                    plt.xlabel('True Values')
-                    plt.ylabel('Predicted Values')
+                    sns.scatterplot(x=X_test[:, 0], y=y_test, color='blue', label='Actual')
+                    sns.scatterplot(x=X_test[:, 0], y=stacking_pred, color='red', label='Predicted')
                     plt.title('Stacking Regressor Predictions')
+                    plt.xlabel('Feature 1')
+                    plt.ylabel('Target Variable')
+                    plt.legend()
                     st.pyplot(plt)
+
         else:
             st.warning('👈 Select features and target')
 else:
     st.warning('👈 Upload a CSV file to get started!')
 
-# Add a footer with a disclaimer
-st.markdown(
-    """
-    <style>
-    .footer {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        color: white;
-        text-align: center;
-    }
-    </style>
-    <div class="footer">
-    <p>Disclaimer: This app is for educational purposes only. Please consult with a professional for accurate analysis.</p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+
