@@ -56,7 +56,7 @@ st.markdown(f"""
         <div class="header-text">
             <strong>Our project explores Principal Component Analysis (PCA) for dimensionality reduction and various ensemble learning techniques to improve model performance, providing detailed insights from diverse datasets.</h4>
             <hr class="dashed">
-            <p>Developed by <b> Oussama HBOUZ , Mohamed MARZAK, HANANE MDIHEN, Douae KHIRI, Hiba BENKATTABA and Houda FATTOUMI</p>
+            <p>Developed by <b> Oussama HBOUZ , Mohamed MARZAK, HANANE MDIHEN, Douaa KHIRI, Hiba BENKATTABA and Houda FATTOUMI</p>     
         </div>
         <img src="data:image/png;base64,{logo_base64}" />
     </div>
