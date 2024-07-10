@@ -52,8 +52,8 @@ To run this app locally, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
-   cd your-repo-name
+   git clone https://github.com/OussHBZ/hello-streamlit.git
+   cd hello-streamlit
 2. Install the required packages:
      ```bash
      pip install -r requirements.txt
